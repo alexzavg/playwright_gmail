@@ -50,8 +50,10 @@ export class GmailHelper {
   async waitForEmail(subject: string, startTime: number, maxWaitTime: number = 30000): Promise<{ subject: string; body: string }> {
     const searchStartTime = Date.now();
     const afterTimestamp = Math.floor(startTime / 1000);
+    let attemptCount = 0;
 
     while (Date.now() - searchStartTime < maxWaitTime) {
+      attemptCount++;
       const response = await this.gmail.users.messages.list({
         userId: 'me',
         q: `subject:"${subject}" is:unread after:${afterTimestamp}`,
@@ -89,9 +91,11 @@ export class GmailHelper {
           emailBody = Buffer.from(message.data.payload.body.data, 'base64').toString('utf-8');
         }
 
+        console.log(`✓ Email found on attempt ${attemptCount}: "${emailSubject}"`);
         return { subject: emailSubject, body: emailBody };
       }
 
+      console.log(`⏳ Polling attempt ${attemptCount}: No email found, waiting...`);
       await new Promise((resolve) => setTimeout(resolve, 3000));
     }
 

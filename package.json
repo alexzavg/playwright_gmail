@@ -4,7 +4,8 @@
   "description": "Minimal Playwright + Gmail API test setup",
   "scripts": {
     "test": "playwright test",
-    "test:headed": "playwright test --headed"
+    "test:headed": "playwright test --headed",
+    "report": "playwright show-report"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",
@@ -12,6 +13,7 @@
     "typescript": "^5.6.0"
   },
   "dependencies": {
-    "googleapis": "^144.0.0"
+    "googleapis": "^144.0.0",
+    "dotenv": "^16.4.5"
   }
 }
