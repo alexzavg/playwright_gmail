@@ -47,13 +47,14 @@ export class GmailHelper {
     });
   }
 
-  async waitForEmail(subject: string, maxWaitTime: number = 30000): Promise<{ subject: string; body: string }> {
-    const startTime = Date.now();
+  async waitForEmail(subject: string, startTime: number, maxWaitTime: number = 30000): Promise<{ subject: string; body: string }> {
+    const searchStartTime = Date.now();
+    const afterTimestamp = Math.floor(startTime / 1000);
 
-    while (Date.now() - startTime < maxWaitTime) {
+    while (Date.now() - searchStartTime < maxWaitTime) {
       const response = await this.gmail.users.messages.list({
         userId: 'me',
-        q: `subject:"${subject}" is:unread`,
+        q: `subject:"${subject}" is:unread after:${afterTimestamp}`,
         maxResults: 1,
       });
 
@@ -91,7 +92,7 @@ export class GmailHelper {
         return { subject: emailSubject, body: emailBody };
       }
 
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 3000));
     }
 
     throw new Error(`Email with subject "${subject}" not found within ${maxWaitTime}ms`);
