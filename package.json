@@ -1,0 +1,17 @@
+{
+  "name": "playwright-gmail-test",
+  "version": "1.0.0",
+  "description": "Minimal Playwright + Gmail API test setup",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  },
+  "dependencies": {
+    "googleapis": "^144.0.0"
+  }
+}
